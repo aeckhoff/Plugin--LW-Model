@@ -9,6 +9,60 @@ class Repository
         $this->dic = new \lwMembersearch\Services\dic();
     }
     
+    protected function getIsDeletableSpecification()
+    {
+        if (!$this->isDeletableSpecification) {
+            $class = $this->baseNamespace.'Specification\\isDeletable';
+            $this->isDeletableSpecification = $class::getInstance();
+        }
+        return $this->isDeletableSpecification;
+    }
+    
+    protected function getDataValueObjectFilter()
+    {
+        if (!$this->DataValueObjectFilter) {
+            $class = $this->baseNamespace."Service\\Filter";
+            $this->DataValueObjectFilter = new $class();
+        }
+        return $this->DataValueObjectFilter;
+    }
+
+    protected function getFactory()
+    {
+        if (!$this->factory) {
+            $class = $this->baseNamespace.'Model\\Factory';
+            $this->factory = $class::getInstance();
+        }
+        return $this->factory;
+    }
+    
+    protected function getIsValidSpecification()
+    {
+        if (!$this->isValidSpecification) {
+            $class = $this->baseNamespace."Specification\\isValid";
+            $this->isValidSpecification = $class::getInstance();
+        }
+        return $this->isValidSpecification;
+    }
+    
+    protected function getCommandHandler()
+    {
+        if (!$this->commandHandler) {
+            $class = $this->baseNamespace.'Model\\CommandHandler';
+            $this->commandHandler = new $class($this->dic->getDbObject());
+        }
+        return $this->commandHandler;
+    }
+    
+    protected function getQueryHandler()
+    {
+        if (!$this->queryHandler) {
+            $class = $this->baseNamespace.'Model\\QueryHandler';
+            $this->queryHandler = new $class($this->dic->getDbObject());
+        }
+        return $this->queryHandler;
+    }    
+    
     public function buildObjectByArray($data)
     {
         $object = $this->buildObjectById($data['id']);
