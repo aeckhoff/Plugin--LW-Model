@@ -6,7 +6,6 @@ class Repository
 {
     public function __construct()
     {
-        $this->dic = new \lwMembersearch\Services\dic();
     }
     
     protected function getIsDeletableSpecification()
@@ -101,6 +100,7 @@ class Repository
     {
         $DataValueObjectFiltered = $this->getDataValueObjectFilter()->filter($dataObject);
         $entity = $this->buildEntityFromFilteredValues($id, $DataValueObjectFiltered);
+        
         if ($this->getIsValidSpecification()->isSatisfiedBy($entity)) {
             return $this->saveValidObject($id, $entity);
         }

@@ -5,82 +5,87 @@ namespace LWddd;
 class DomainEvent
 {
     
-    private $values;
+    private $eventName;
+    private $response;
+    private $parameter = array();
+    private $data = array();
+    private $history = array();
+    private $domainName; 
     
-    function __construct($eventName, ValueObject $dataValueObject, ValueObject $parameterValueObject, $id=false)
+    public function __construct($domainName, $eventName)
     {
+        $this->domainName = $domainName;
         $this->eventName = $eventName;
-        $this->dataValueObject = $dataValueObject;
-        $this->parameterValueObject = $parameterValueObject;
-        $this->id = $id;
+        $this->response = \LWddd\Response::getInstance();
     }
 
-    function getEventName()
+    public static function getInstance($domainName, $eventName)
+    {
+        return new DomainEvent($domainName, $eventName);
+    }
+    
+    public function getEventName()
     {
         return $this->eventName;
     }
     
-    function getDataValueObject()
+    public function getDomainName()
     {
-        return $this->dataValueObject;
+        return $this->domainName;
     }
     
-    function getDataByKey($key)
+    public function setParameterByKey($key, $value)
     {
-        return $this->dataValueObject->getValueByKey($key);
+        $this->parameter[$key] = $value;
+        return $this;
     }
     
-    function getParameterValueObject()
+    public function getParameterByKey($key)
     {
-        return $this->parameterValueObject;
+        return $this->parameter[$key];
     }
     
-    function getParameterByKey($key)
+    public function setDataByKey($key, $value)
     {
-        return $this->parameterValueObject->getValueByKey($key);
+        $this->data[$key] = $value;
+        return $this;
     }
     
-    function getId()
+    public function getDataByKey($key)
     {
-        return $this->id;
+        return $this->data[$key];
     }
     
-    function setSession($session)
+    public function getDataArray()
     {
-        $this->session = $session;
+        return $this->data;
     }
     
-    function getSession()
+    public function getResponse()
     {
-        if ($this->hasSession()) {
-            return $this->session;
+        return $this->response;
+    }
+    
+    public function addEventHistory($message, $modifyingEvent=false)
+    {
+        $history['message'] = $message;
+        $history['modifyingEvent'] = $modified;
+        $this->history[] = $history;
+        return $this;
+    }
+
+    public function getEventHistory()
+    {
+        return $this->history;
+    }
+
+    public function getModifyingEventHistory()
+    {
+        foreach($this->history as $event) {
+            if ($event['modifyingEvent'] === true) {
+                $array[] = $event;
+            }
         }
-        return false;
-    }
-    
-    public function hasSession()
-    {
-        if ($this->session) {
-            return true;
-        }
-        return false;
-    }
-    
-    function setEntity(\LWddd\Entity $entity)
-    {
-        $this->entity = $entity;
-    }
-    
-    function hasEntity()
-    {
-        if (is_object($this->entity)) {
-            return true;
-        }
-        return false;
-    }
-    
-    function getEntity()
-    {
-        return $this->entity;
+        return $array;
     }
 }
