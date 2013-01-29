@@ -74,11 +74,25 @@ class EventHandler
         return $class::getInstance();
     }
     
+    public function buildObjectByArray($data)
+    {
+        $object = $this->buildObjectById($data['id']);
+        return $this->prepareObject($object, $data);
+    }    
+    
+    public function buildAggregateFromQueryResult($result)
+    {
+        foreach($items as $item) {
+            $entities[] =  $this->buildObjectByArray($item);
+        }
+        return new \LWddd\EntityAggregate($entities);        
+    }
+    
     public function buildEntityFromArray($array)
     {
         $dataValueObject = new \LWddd\ValueObject($array);
         return $this->buildEntityFromValueObject($dataValueObject);
-   }
+    }
     
     public function buildEntityFromValueObject($data)
     {
