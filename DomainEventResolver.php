@@ -11,7 +11,6 @@ class DomainEventResolver
     
     public function __construct($event)
     {
-        $this->dic = new \lwListtool\Services\dic();
         $this->event = $event;
     }
     
@@ -44,11 +43,11 @@ class DomainEventResolver
     
     protected function getDataValueObjectDecorator()
     {
-        if (!$this->DataValueObjectFilter) {
+        if (!$this->DataValueObjectDecorator) {
             $class = $this->baseNamespace.'Service\Decorator';
-            $this->DataValueObjectFilter = new $class();
+            $this->DataValueObjectDecorator = new $class();
         }
-        return $this->DataValueObjectFilter;
+        return $this->DataValueObjectDecorator;
     }    
     
     public function getIsDeletableSpecification()
