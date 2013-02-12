@@ -13,12 +13,22 @@ class DomainEventResolver
     {
         $this->event = $event;
     }
+
+    public function setBaseNamespace($baseNamespace)
+    {
+        $this->baseNamespace = $baseNamespace;
+    }
+    
+    public function setObjectClass($objectClass)
+    {
+        $this->ObjectClass = $objectClass;
+    }
     
     protected function getCommandHandler()
     {
         if (!$this->commandHandler) {
-            $class = $this->baseNamespace.'Model\CommandHandler';
-            $this->commandHandler = new $class($this->dic->getDbObject());
+            $class = $this->baseNamespace.'DataHandler\CommandHandler';
+            $this->commandHandler = new $class(\lw_registry::getInstance()->getEntry("db"));
         }
         return $this->commandHandler;
     }
@@ -26,8 +36,8 @@ class DomainEventResolver
     protected function getQueryHandler()
     {
         if (!$this->queryHandler) {
-            $class = $this->baseNamespace.'Model\QueryHandler';
-            $this->queryHandler = new $class($this->dic->getDbObject());
+            $class = $this->baseNamespace.'DataHandler\QueryHandler';
+            $this->queryHandler = new $class(\lw_registry::getInstance()->getEntry("db"));
         }
         return $this->queryHandler;
     }

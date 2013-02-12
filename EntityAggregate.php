@@ -38,8 +38,8 @@ class EntityAggregate implements \Iterator
         return isset($this->entities[$this->position]);
     }
     
-    function renderView($view)
+    function getEntities()
     {
-        $view->entities = $this->entities;
+        return $this->entities;
     }
 }
