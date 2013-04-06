@@ -1,6 +1,6 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 
 class Repository
 {
@@ -73,7 +73,7 @@ class Repository
         foreach($items as $item) {
             $entities[] =  $this->buildObjectByArray($item);
         }
-        return new \LWddd\EntityAggregate($entities);
+        return new \LwModel\EntityAggregate($entities);
     }
     
     public function getAllObjectsAggregate()
@@ -84,7 +84,7 @@ class Repository
     
     public function prepareObject($object, $data)
     {
-        $object->setDataValueObject(new \LWddd\ValueObject($data));
+        $object->setDataValueObject(new \LwModel\ValueObject($data));
         $object->setLoaded();
         $object->unsetDirty();
         return $object;
@@ -105,7 +105,7 @@ class Repository
             return $this->saveValidObject($id, $entity);
         }
         else {
-            $exception = new \LWddd\validationErrorsException('Error');
+            $exception = new \LwModel\validationErrorsException('Error');
             $exception->setErrors($this->getIsValidSpecification()->getErrors());
             throw $exception;
         }

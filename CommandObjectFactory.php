@@ -1,12 +1,12 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 
 class CommandObjectFactory 
 {
-    public function __construct(\LWddd\DomainEvent $domainEvent)
+    public function __construct(\LwModel\ModelCommand $ModelCommand)
     {
-        $this->domainEvent = $domainEvent;
+        $this->ModelCommand = $ModelCommand;
     }
     
     public function setEmptyEntity($entity)
@@ -16,7 +16,7 @@ class CommandObjectFactory
     
     public function generate()
     {
-        $valueObject = $this->filterService->filter($this->domainEvent->getValueObject());
+        $valueObject = $this->filterService->filter($this->ModelCommand->getValueObject());
         $valueObject = $this->validateService->validate($valueObject);
         if ($this->validateService->isValid()) {
             $this->entity->setValid(true);
@@ -26,8 +26,8 @@ class CommandObjectFactory
         foreach ($values as $key => $value) {
             $this->entity->setValueByKey($key, $value);
         }
-        $commandObject = new \LWddd\CommandObject();
-        $commandObject->setDomainEvent($this->domainEvent);
+        $commandObject = new \LwModel\CommandObject();
+        $commandObject->setModelCommand($this->ModelCommand);
         $commandObject->setEntity($this->entity);
         return $commandObject;
     }

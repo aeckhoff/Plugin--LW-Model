@@ -1,6 +1,6 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 
 class CommandBus
 {
@@ -18,7 +18,7 @@ class CommandBus
 
     public function handle($command)
     {
-        $handler = $this->handlers[$command->getEventName()];
+        $handler = $this->handlers[$command->getCommandName()];
         $handler->handle($command);
     }
 }

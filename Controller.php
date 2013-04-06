@@ -1,11 +1,11 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 use \lw_response as lwResponse;
 use \lw_request as lwRequest;
-use \LWddd\ValueObject as valueObject;
-use \LWddd\DomainEvent as domainEvent;
-use \LWddd\CommandBus as commandBus;
+use \LwModel\ValueObject as valueObject;
+use \LwModel\ModelCommand as modelCommand;
+use \LwModel\CommandBus as commandBus;
 
 class Controller 
 {
@@ -28,34 +28,34 @@ class Controller
     
     public function execute($cmd, lwRequest $HTTPRequest)
     {
-        $this->generateDomainEventFromHTTPRequest($cmd, $HTTPRequest);
+        $this->generateModelCommandFromHTTPRequest($cmd, $HTTPRequest);
 
-        if (method_exists($this, $this->domainEvent->getEventName()) && is_callable(array($this, $this->domainEvent->getEventName()))) {
-            call_user_func(array($this, $this->domainEvent->getEventName()));
+        if (method_exists($this, $this->modelCommand->getCommandName()) && is_callable(array($this, $this->modelCommand->getCommandName()))) {
+            call_user_func(array($this, $this->modelCommand->getCommandName()));
         }
         return $this->response;
     }
 
-    public function generateDomainEventFromHTTPRequest($cmd, $HTTPRequest)
+    public function generateModelCommandFromHTTPRequest($cmd, $HTTPRequest)
     {
-        $domainCommand = $cmd;
-        if (!$domainCommand) {
+        $modelCommand = $cmd;
+        if (!$modelCommand) {
             if ($this->defaultAction) {
-                $domainCommand = $this->defaultAction;
+                $modelCommand = $this->defaultAction;
             } 
             else {
-                $domainCommand = "indexAction";
+                $modelCommand = "indexAction";
             }
         }
         else {
-            $domainCommand = $domainCommand."Action";
+            $modelCommand = $modelCommand."Action";
         }   
     
         $id = $HTTPRequest->getInt($this->idString);
     
         $dataValueObject = new valueObject($HTTPRequest->getPostArray());
         $parameterValueObject = new valueObject($HTTPRequest->getGetArray());
-        $this->domainEvent = new domainEvent($domainCommand, $dataValueObject, $parameterValueObject, $id);
-        $this->domainEvent->setSession($this->session);
+        $this->modelCommand = new modelCommand($modelCommand, $dataValueObject, $parameterValueObject, $id);
+        $this->modelCommand->setSession($this->session);
     }    
 }

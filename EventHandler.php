@@ -1,6 +1,6 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 
 class EventHandler 
 {
@@ -85,18 +85,18 @@ class EventHandler
         foreach($items as $item) {
             $entities[] =  $this->buildObjectByArray($item);
         }
-        return new \LWddd\EntityAggregate($entities);        
+        return new \LwModel\EntityAggregate($entities);        
     }
     
     public function buildEntityFromArray($array)
     {
-        $dataValueObject = new \LWddd\ValueObject($array);
+        $dataValueObject = new \LwModel\ValueObject($array);
         return $this->buildEntityFromValueObject($dataValueObject);
     }
     
     public function buildEntityFromValueObject($data)
     {
-        $entity = $this->getNewDomainObject();
+        $entity = $this->getNewModelObject();
         $entity->setDataValueObject($data);
         $entity->setLoaded();
         $entity->setDirty();

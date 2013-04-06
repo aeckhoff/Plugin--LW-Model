@@ -1,6 +1,6 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 
 class Response
 {

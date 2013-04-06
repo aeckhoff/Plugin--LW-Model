@@ -1,6 +1,6 @@
 <?php
 
-namespace LWddd;
+namespace LwModel;
 use \Exception as Exception;
 
 class Entity
@@ -11,7 +11,7 @@ class Entity
         $this->setId($id);
     }
     
-    public function setDataValueObject(\LWddd\ValueObject $valueObject)
+    public function setDataValueObject(\LwModel\ValueObject $valueObject)
     {
         $this->valueObject = $valueObject;
         if ($this->id > 0 ) {
