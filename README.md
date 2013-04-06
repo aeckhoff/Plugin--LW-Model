@@ -1,3 +1,3 @@
-_Base Domain Driven Design Classes of the Contentory C3.8 System_
+_Base Model  Classes of the Contentory C3.8 System_
 
-description will follow shortly
+description will follow
